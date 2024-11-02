@@ -1,0 +1,32 @@
+[
+    {
+        "nome": "Marcos Vinicius da Mata",
+        "email": "da-conceicaocecilia@example.net",
+        "empresa": "Costela",
+        "cargo": "Leiloeiro"
+    },
+    {
+        "nome": "Sophie Sales",
+        "email": "pereiraana-luiza@example.com",
+        "empresa": "Ribeiro",
+        "cargo": "Arquivista"
+    },
+    {
+        "nome": "Milena Peixoto",
+        "email": "anthonypinto@example.org",
+        "empresa": "Caldeira",
+        "cargo": "Engenheiro industrial"
+    },
+    {
+        "nome": "Sra. Sophie Leao",
+        "email": "usilva@example.org",
+        "empresa": "Pereira",
+        "cargo": "Clinico geral"
+    },
+    {
+        "nome": "Luiz Henrique Alves",
+        "email": "erodrigues@example.org",
+        "empresa": "Casa Grande",
+        "cargo": "Cientista de alimentos"
+    }
+]
