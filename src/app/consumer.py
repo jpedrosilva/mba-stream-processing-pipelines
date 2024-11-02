@@ -2,6 +2,7 @@ import json
 import os
 
 from dotenv import load_dotenv
+from kafka.admin import KafkaAdminClient, NewTopic
 from pyflink.common import SimpleStringSchema, Types, WatermarkStrategy
 from pyflink.common.serialization import Encoder
 from pyflink.datastream import MapFunction
@@ -11,6 +12,41 @@ from pyflink.datastream.connectors.kafka import (KafkaOffsetsInitializer,
 from pyflink.datastream.stream_execution_environment import \
     StreamExecutionEnvironment
 
+def create_kafka_topic(bs_server: str, topic: str, num_partitions: int, replication_factor: int):
+    """
+    Cria um tópico Kafka com o número especificado de partições e fator de replicação.
+
+    Esta função utiliza o KafkaAdminClient para criar um novo tópico no servidor Kafka
+    especificado. Em caso de sucesso, uma mensagem de confirmação é exibida. Se ocorrer
+    algum erro durante a criação do tópico, uma mensagem de erro é exibida.
+
+    Parâmetros
+    ----------
+    bs_server : str
+        Endereço do servidor de bootstrap Kafka.
+    topic : str
+        Nome do tópico que será criado.
+    num_partitions : int
+        Número de partições para o novo tópico.
+    replication_factor : int
+        Fator de replicação para o novo tópico.
+    """
+    admin_client = KafkaAdminClient(
+        bootstrap_servers=bs_server,
+        client_id='kafka_client'
+    )
+    new_topic = NewTopic(
+        name=topic,
+        num_partitions=num_partitions,
+        replication_factor=replication_factor
+    )
+    try:
+        admin_client.create_topics(new_topics=[new_topic], validate_only=False)
+        print(f"Tópico '{topic}' criado com sucesso.")
+    except Exception as e:
+        print(f"Falha na criação do tópico: '{topic}': {e}")
+    finally:
+        admin_client.close()
 
 class JsonParser(MapFunction):
     """
@@ -100,6 +136,7 @@ class SourceStream(object):
         self.env.set_parallelism(1)
 
     def create_kafka_source_stream(self, bs_server:str, topic:str, consumer_group:str) -> None:
+        self.topic = topic
         kafka_source = KafkaSource.builder() \
             .set_bootstrap_servers(bs_server) \
             .set_topics(topic) \
@@ -114,6 +151,7 @@ class SourceStream(object):
         parsed_stream = self.data_stream.map(JsonParser(), output_type=Types.MAP(Types.STRING(), Types.STRING()))
         sink = FileSink.for_row_format(output_path, Encoder.simple_string_encoder("utf-8")).build()
         parsed_stream.map(AccessValues(), output_type=Types.STRING()).sink_to(sink)
+        print(f'Stream consumer iniciada, escutando tópico {self.topic}')
         self.env.execute('Stream Processing Pipeline')
 
 if __name__ == '__main__':
@@ -126,6 +164,9 @@ if __name__ == '__main__':
     OUTPUT_FILES_PATH = os.getenv('OUTPUT_FILE_PATH')
     TOPIC = os.getenv('TOPIC')
     CONSUMER_GROUP = os.getenv('CONSUMER_GROUP')
+
+    # Criação do tópico
+    create_kafka_topic(BS_SERVER, TOPIC, 1, 1)
 
     # Stream Consumer
     datastream = SourceStream(PATH_JAR)
