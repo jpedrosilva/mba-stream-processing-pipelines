@@ -21,8 +21,8 @@ Este projeto realiza a leitura de arquivos JSON e os envia para um sistema de pr
 4.  Instale as dependências do projeto:
 	   `poetry install --only main` 
 3.  Configure o caminho do arquivo `.jar` necessário para o PyFlink:
-   -   Localize o arquivo `.jar` na pasta `src/app/jar`.
-   -   Edite a variável `PATH_JAR` no arquivo `.env` para apontar para o caminho completo do arquivo `.jar`.
+	   -   Localize o arquivo `.jar` na pasta `src/app/jar`.
+	   -   Edite a variável `PATH_JAR` no arquivo `.env` para apontar para o caminho completo do arquivo `.jar`.
 4.  Inicie os containers do Docker (necessário para rodar o Kafka e outros serviços): `docker-compose up -d`
 5.  Em terminais separados, execute os seguintes comandos para iniciar o consumidor e o produtor:
    `poetry run python src/app/consumer.py`
