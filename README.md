@@ -19,7 +19,7 @@ Este projeto realiza a leitura de arquivos JSON e os envia para um sistema de pr
 │   ├── 📁 jar/               	# Pasta que contém o arquivo .jar
 │   │   └── 📄 flink-sql-connector-kafka.jar 	# Arquivo .jar
 │   ├── 📄 consumer.py         	# Arquivo .py do consumer
-│   └── 📄 producer.py/       	# Arquivo .py do producer
+│   └── 📄 producer.py       	# Arquivo .py do producer
 ├── 📄 .env  			# Arquivo com as variáveis de ambiente
 ├── 📄 docker-compose.yml  	# Arquivo do composer
 ├── 📄 poetry.lock  		# Arquivo de dependências do poetry
