@@ -49,6 +49,6 @@ Agora, o sistema está configurado para capturar os dados JSON de entrada, proce
 ## Tecnologias Utilizadas
  
 -   Kafka
--   PyFlink
--   Python
 -   Docker
+-   Python
+-   Flink (PyFlink)
