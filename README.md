@@ -50,6 +50,5 @@ Agora, o sistema está configurado para capturar os dados JSON de entrada, proce
  
 -   Kafka
 -   PyFlink
--   Poetry
 -   Python
 -   Docker
